@@ -657,7 +657,6 @@ tagFile(struct file* f, char* key, char* value, int valueLength)
   }
 
   tag.value[i] = (char)0;
-  // cprintf("tag key is %s and tag value is %s\n", tag.key, tag.value);
 
   if(f->writable == 0)
     return -1;
@@ -666,7 +665,6 @@ tagFile(struct file* f, char* key, char* value, int valueLength)
 
     bp = bread(ip->dev, a);
     for(a = ip->tagAddr; a < limit; a += n){
-      // cprintf("a is %d\n", a);
       cprintf("data is %s\n", bp->data + a);
       if(bp->data[a+0] == '\0' && nextOpenAddr == 2){
         nextOpenAddr = a;
@@ -776,8 +774,6 @@ getFileTag(struct file* f, char* key, char* buffer, int length)
   ip = f->ip;
   int n = sizeof(struct tag);
   uint a = ip->tagAddr;
-  // int i;
-  // int trueLength = 0;
   int found = 1;
   uint limit = (ip->tagAddr + 16*n);
 
@@ -822,23 +818,7 @@ getFileTag(struct file* f, char* key, char* buffer, int length)
           iunlock(ip);
           return m;
         }
-   
-        // i=10;
-        // while(((bp->data + a + i)[0] >= 'A' && (bp->data + a + i)[0] <= 'Z') || 
-        //   ((bp->data + a + i)[0] >= 'a' && (bp->data + a + i)[0] <= 'z') ||
-        //   ((bp->data + a + i)[0] >= '0' && (bp->data + a + i)[0] <= '9')) {
-        //   trueLength++;
-        //   i++;
-        // }
-        // while((bp->data + a + i)[0] != (char)0) {
-        //   trueLength++;
-        //   i++;
-        // }
-        // if(trueLength > length){
-        //   brelse(bp);
-        //   iunlock(ip);
-        //   return trueLength;
-        // }
+  
 
         memmove(buffer, (char*)bp->data + a + 10, length);
         brelse(bp);
